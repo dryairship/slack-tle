@@ -42,7 +42,7 @@ def app_mention(payload):
     if channel_is_valid(channel_id):
         message = bot_message_manager.handle_command(bot_user_id, user_id, text)
 
-    response = slack_web_client.chat_postMessage(channel=channel_id, text=message)
+    response = slack_web_client.chat_postMessage(channel=channel_id, blocks=message)
 
 @app.route('/data/<path:path>')
 def send_js(path):
