@@ -3,7 +3,7 @@ import logging
 import ssl
 import certifi
 import time
-from flask import Flask
+from flask import Flask, send_from_directory
 from slack import WebClient
 from slackeventsapi import SlackEventAdapter
 from bot_messages import BotMessagesManager
@@ -44,6 +44,9 @@ def app_mention(payload):
 
     response = slack_web_client.chat_postMessage(channel=channel_id, text=message)
 
+@app.route('/data/<path:path>')
+def send_js(path):
+    return send_from_directory('data/temp', path)
 
 if __name__ == "__main__":
     logger = logging.getLogger()
