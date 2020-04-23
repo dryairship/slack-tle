@@ -1,6 +1,7 @@
-import util.codeforces_api as cf
 import json
-import asyncio
+
+import util.codeforces_api as cf
+import util.graphs as graphs
 
 class BotMessagesManager:
     def __init__(self, event_loop):
@@ -39,9 +40,9 @@ class BotMessagesManager:
         result = self.event_loop.run_until_complete(cf.user.info(handles=[user]))
         return self.get_blocks_for_text_message(json.dumps(result))
 
-    def handle_rating_user(self, user):
-        result = self.event_loop.run_until_complete(cf.user.rating(handle=user))
-        return self.get_blocks_for_text_message(json.dumps(result))
+    def handle_rating_users(self, users):
+        graph_file = self.event_loop.run_until_complete(graphs.get_rating_graph_file(handles=users))
+        return self.get_blocks_for_image_file(graph_file)
 
     def handle_command(self, bot_user_id, user_id, text):
         parts = text.split()
@@ -54,6 +55,6 @@ class BotMessagesManager:
         if parts[1] == "fetch":
             return self.handle_fetch_user(parts[2])
         if parts[1] == "rating":
-            return self.handle_rating_user(parts[2])
+            return self.handle_rating_users(parts[2:])
 
         return self.handle_help()
