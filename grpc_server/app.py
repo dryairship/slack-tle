@@ -5,8 +5,10 @@ from grpclib.server import Server
 from grpclib.reflection.service import ServerReflection
 
 from grpc_server.api_service import APIService
+from grpc_server.util import codeforces_api as cf
 
 async def main(*, host='127.0.0.1', port=50051):
+    await cf.initialize()
     services = ServerReflection.extend([APIService()])
     server = Server(services)
     with graceful_exit([server]):
