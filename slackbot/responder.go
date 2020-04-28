@@ -3,7 +3,6 @@ package slackbot
 import (
 	"strings"
 
-	"github.com/slack-go/slack"
 	"github.com/slack-go/slack/slackevents"
 )
 
@@ -19,13 +18,21 @@ type AppMentionEvent struct {
 }
 */
 
-
 func RespondToMessage(event *slackevents.AppMentionEvent) {
 	text := strings.Split(event.Text, " ")
 
 	if !strings.Contains(text[0], BotID) {
-		SlackBot.PostMessage(event.Channel, slack.MsgOptionText("I'm a busy bot. Call me only when you need me. :angry:", false))
+		SlackBot.PostMessage(event.Channel, messageNotACommand())
 		return
 	}
-	SlackBot.PostMessage(event.Channel, slack.MsgOptionText("Aaryan stupid", false))
+
+	if len(text) < 2 {
+		handleHelp(event)
+		return
+	}
+
+	switch text[1] {
+	default:
+		handleHelp(event)
+	}
 }
