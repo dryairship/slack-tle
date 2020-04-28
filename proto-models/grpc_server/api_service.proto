@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+message RatingRequest {
+  repeated string handles = 1;
+}
+
+message RatingReply {
+  string file = 1;
+}
+
+service APIService {
+  rpc GetRating (RatingRequest) returns (RatingReply) {}
+}
