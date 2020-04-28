@@ -22,7 +22,7 @@ def get_current_figure_as_file():
     filename = f'tempplot_{time.time()}.png'
     filepath = os.path.join(constants.TEMP_DIR, filename)
     plt.savefig(filepath, facecolor=plt.gca().get_facecolor(), bbox_inches='tight', pad_inches=0.25)
-    return f'{constants.HOST_NAME}/data/{filename}'
+    return f'{constants.HOST_NAME}/temp/{filename}'
 
 def plot_rating_bg(ranks):
     ymin, ymax = plt.gca().get_ylim()

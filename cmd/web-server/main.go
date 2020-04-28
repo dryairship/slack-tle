@@ -42,6 +42,10 @@ func main() {
 			}
 		}
 	})
+
+	fileServer := http.FileServer(http.Dir("./data"))
+	http.Handle("/", fileServer)
+
 	fmt.Println("[INFO] Server started")
 	http.ListenAndServe(":3000", nil)
 }

@@ -1,6 +1,7 @@
 package slackbot
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/slack-go/slack/slackevents"
@@ -19,6 +20,8 @@ type AppMentionEvent struct {
 */
 
 func RespondToMessage(event *slackevents.AppMentionEvent) {
+	fmt.Println("[COMMAND RECEIVED] "+event.Text)
+
 	text := strings.Split(event.Text, " ")
 
 	if !strings.Contains(text[0], BotID) {
@@ -32,6 +35,8 @@ func RespondToMessage(event *slackevents.AppMentionEvent) {
 	}
 
 	switch text[1] {
+	case "rating":
+		handleRating(event, text[2:])
 	default:
 		handleHelp(event)
 	}

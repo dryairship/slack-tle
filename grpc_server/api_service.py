@@ -6,5 +6,4 @@ class APIService(APIServiceBase):
     async def GetRating(self, stream):
         request: RatingRequest = await stream.recv_message()
         file = await get_rating_graph_file(handles=request.handles)
-        #message = f'I got {len(request.handles)} handles.'
         await stream.send_message(RatingReply(file=file))
